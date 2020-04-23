@@ -8,7 +8,7 @@ public interface ProductDao {
 
     Product create(Product product);
 
-    Optional<Product> get(Long productId);
+    Optional<Product> getProduct(Long productId);
 
     List<Product> getAllProducts();
 

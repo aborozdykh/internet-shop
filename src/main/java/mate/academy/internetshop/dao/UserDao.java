@@ -7,7 +7,7 @@ import mate.academy.internetshop.model.User;
 public interface UserDao {
     User create(User user);
 
-    Optional<User> get(Long userId);
+    Optional<User> getUser(Long userId);
 
     List<User> getAllUsers();
 

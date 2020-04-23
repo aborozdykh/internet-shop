@@ -17,7 +17,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Optional<User> get(Long userId) {
+    public Optional<User> getUser(Long userId) {
         return Storage.users
                 .stream()
                 .filter(user -> user.getUserId().equals(userId))

@@ -1,7 +1,6 @@
 package mate.academy.internetshop.service.impl;
 
 import java.util.List;
-import mate.academy.internetshop.dao.ProductDao;
 import mate.academy.internetshop.dao.UserDao;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.lib.Service;
@@ -20,8 +19,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User get(Long userId) {
-      return userDao.get(userId).get();
+    public User getUser(Long userId) {
+      return userDao.getUser(userId).get();
     }
 
     @Override
