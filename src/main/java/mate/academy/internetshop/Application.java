@@ -18,13 +18,13 @@ public class Application {
         productService.create(product2);
         productService.create(product3);
 
-        System.out.println(productService.getAll());
+        System.out.println(productService.getAllProducts());
         System.out.println(productService.get(2L));
         productService.delete(product1);
         System.out.println("" + productService.delete((long) 5));
         System.out.println("" + productService.delete((long) 2));
 
-        System.out.println(productService.getAll());
+        System.out.println(productService.getAllProducts());
 
     }
 }

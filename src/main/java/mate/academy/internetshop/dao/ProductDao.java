@@ -10,7 +10,7 @@ public interface ProductDao {
 
     Optional<Product> get(Long productId);
 
-    List<Product> getAll();
+    List<Product> getAllProducts();
 
     Product update(Product product);
 

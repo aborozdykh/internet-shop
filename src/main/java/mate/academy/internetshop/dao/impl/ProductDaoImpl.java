@@ -10,6 +10,7 @@ import mate.academy.internetshop.model.Product;
 
 @Dao
 public class ProductDaoImpl implements ProductDao {
+
     @Override
     public Product create(Product product) {
         Storage.addProduct(product);
@@ -25,7 +26,7 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public List<Product> getAll() {
+    public List<Product> getAllProducts() {
         return Storage.products;
     }
 
