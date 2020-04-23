@@ -2,7 +2,6 @@ package mate.academy.internetshop;
 
 import java.math.BigDecimal;
 import mate.academy.internetshop.lib.Injector;
-import mate.academy.internetshop.model.Order;
 import mate.academy.internetshop.model.Product;
 import mate.academy.internetshop.model.ShoppingCart;
 import mate.academy.internetshop.model.User;
@@ -16,9 +15,6 @@ public class Application {
 
     public static void main(String[] args) {
         ProductService productService = (ProductService) injector.getInstance(ProductService.class);
-        UserService userService = (UserService) injector.getInstance(UserService.class);
-        ShoppingCartService shoppingCartService = (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
-//        OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
 
         /// Products
         Product product1 = new Product("Apple", new BigDecimal(1000));
@@ -34,6 +30,8 @@ public class Application {
         // System.out.println("" + productService.delete((long) 2));
         System.out.println(productService.getAllProducts());
 
+        UserService userService = (UserService) injector.getInstance(UserService.class);
+
         /// Users
         System.out.println("========================== Users ==========================");
         User user1 = new User("Ferdinand", "ferdi", "nando");
@@ -48,6 +46,9 @@ public class Application {
         System.out.println("Delete by id 1: " + userService.delete((long) 1));
         System.out.println(userService.getAllUsers());
 
+        ShoppingCartService shoppingCartService =
+                (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
+
         /// Carts
         System.out.println("========================== Carts ==========================");
         ShoppingCart cart2 = new ShoppingCart(user2);
@@ -56,11 +57,27 @@ public class Application {
         shoppingCartService.addProduct(shoppingCart, product2);
         shoppingCartService.addProduct(shoppingCart, product3);
         System.out.println("Корзина юзера 2: " + shoppingCartService.getByUserId(2L));
-        System.out.println("Корзина до удаления: " + shoppingCartService.getAllProducts(shoppingCart));
-        shoppingCartService.deleteProduct(shoppingCart, product1);
-        System.out.println("Корзина после удаления: " + shoppingCartService.getAllProducts(shoppingCart));
-        shoppingCartService.clear(shoppingCart);
-        System.out.println("Корзина после clear: " + shoppingCartService.getAllProducts(shoppingCart));
+        System.out.println("Все продукты корзины до удаления: "
+                + shoppingCartService.getAllProducts(shoppingCart));
+        //        shoppingCartService.deleteProduct(shoppingCart, product1);
+        //        System.out.println("Все продукты корзины до удаления: "
+        //        + shoppingCartService.getAllProducts(shoppingCart));
+        //        shoppingCartService.clear(shoppingCart);
+        //        System.out.println("Корзина после clear: "
+        //        + shoppingCartService.getAllProducts(shoppingCart));
 
+        /// Orders
+        System.out.println("========================== Orders ==========================");
+        System.out.println("Юзер с id 2: " + userService.getUser(2L));
+        System.out.println("Корзина юзера 2: " + shoppingCartService.getByUserId(2L));
+        System.out.println("Все продукты корзины юзера 2: "
+                + shoppingCartService.getAllProducts(shoppingCart));
+
+        OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
+
+        orderService.completeOrder(shoppingCart.getProducts(), shoppingCart.getUser());
+        System.out.println("Все продукты корзины юзера 2 после создания заказа: "
+                + shoppingCartService.getAllProducts(shoppingCart));
+        System.out.println("Заказы юзера 2: " + orderService.getUserOrders(user2));
     }
 }

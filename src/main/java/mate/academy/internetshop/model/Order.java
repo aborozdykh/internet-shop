@@ -13,6 +13,9 @@ public class Order {
         this.user = user;
     }
 
+    public Order() {
+    }
+
     public Long getOrderId() {
         return orderId;
     }
@@ -35,5 +38,14 @@ public class Order {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{"
+                + "orderId=" + orderId
+                + ", products=" + products
+                + ", user=" + user
+                + '}';
     }
 }

@@ -1,35 +1,59 @@
 package mate.academy.internetshop.service.impl;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
+import mate.academy.internetshop.dao.OrderDao;
+import mate.academy.internetshop.dao.ShoppingCartDao;
+import mate.academy.internetshop.lib.Inject;
+import mate.academy.internetshop.lib.Service;
 import mate.academy.internetshop.model.Order;
 import mate.academy.internetshop.model.Product;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.OrderService;
+import mate.academy.internetshop.service.ShoppingCartService;
 
+@Service
 public class OrderServiceImpl implements OrderService {
+
+    @Inject
+    OrderDao orderDao;
+
+    @Inject
+    ShoppingCartDao shoppingCartDao;
+
+    @Inject
+    ShoppingCartService shoppingCartService;
+
     @Override
     public Order completeOrder(List<Product> products, User user) {
-        return null;
+        Order order = orderDao.create(products, user);
+        shoppingCartService.clear(shoppingCartDao.getAllShoppingCarts()
+                .stream()
+                .filter(shoppingCart -> shoppingCart.getUser().equals(user))
+                .findFirst().get());
+        return order;
     }
 
     @Override
     public List<Order> getUserOrders(User user) {
-        return null;
+        return orderDao.getAllOrders()
+                .stream()
+                .filter(order -> order.getUser().equals(user))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Optional<Order> getOrder(Long orderId) {
-        return Optional.empty();
+    public Order getOrder(Long orderId) {
+        return orderDao.getOrder(orderId).get();
     }
 
     @Override
     public List<Order> getAllOrders() {
-        return null;
+        return orderDao.getAllOrders();
     }
 
     @Override
     public boolean delete(Long orderId) {
-        return false;
+        return orderDao.delete(orderId);
     }
 }
