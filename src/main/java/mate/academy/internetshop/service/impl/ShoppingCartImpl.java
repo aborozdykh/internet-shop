@@ -20,6 +20,26 @@ public class ShoppingCartImpl implements ShoppingCartService {
     }
 
     @Override
+    public ShoppingCart get(Long id) {
+        return shoppingCartDao.get(id).get();
+    }
+
+    @Override
+    public List<ShoppingCart> getAll() {
+        return shoppingCartDao.getAll();
+    }
+
+    @Override
+    public ShoppingCart update(ShoppingCart shoppingCart) {
+        return shoppingCartDao.update(shoppingCart);
+    }
+
+    @Override
+    public boolean delete(Long id) {
+        return shoppingCartDao.delete(id);
+    }
+
+    @Override
     public ShoppingCart addProduct(ShoppingCart shoppingCart, Product product) {
         shoppingCart.getProducts().add(product);
         return shoppingCartDao.update(shoppingCart);
@@ -40,7 +60,7 @@ public class ShoppingCartImpl implements ShoppingCartService {
 
     @Override
     public ShoppingCart getByUserId(Long userId) {
-        return shoppingCartDao.getAllShoppingCarts()
+        return shoppingCartDao.getAll()
                 .stream()
                 .filter(shoppingCart -> shoppingCart.getUser().getUserId().equals(userId))
                 .findFirst()
@@ -49,7 +69,7 @@ public class ShoppingCartImpl implements ShoppingCartService {
 
     @Override
     public List<Product> getAllProducts(ShoppingCart shoppingCart) {
-        return shoppingCartDao.getShoppingCart(shoppingCart.getShoppingCartId())
+        return shoppingCartDao.get(shoppingCart.getShoppingCartId())
                 .get().getProducts();
     }
 }

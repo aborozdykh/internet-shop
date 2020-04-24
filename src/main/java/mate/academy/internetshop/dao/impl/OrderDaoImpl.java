@@ -7,15 +7,19 @@ import mate.academy.internetshop.dao.OrderDao;
 import mate.academy.internetshop.db.Storage;
 import mate.academy.internetshop.lib.Dao;
 import mate.academy.internetshop.model.Order;
-import mate.academy.internetshop.model.Product;
-import mate.academy.internetshop.model.User;
 
 @Dao
 public class OrderDaoImpl implements OrderDao {
 
     @Override
-    public Order create(List<Product> products, User user) {
-        Order order = new Order(List.copyOf(products), user);
+    public Order create() {
+        var order = new Order();
+        Storage.addOrder(order);
+        return order;
+    }
+
+    @Override
+    public Order create(Order order) {
         Storage.addOrder(order);
         return order;
     }
@@ -30,7 +34,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Optional<Order> getOrder(Long orderId) {
+    public Optional<Order> get(Long orderId) {
         return Storage.orders
                 .stream()
                 .filter(order -> order.getOrderId().equals(orderId))
@@ -38,12 +42,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Optional<Order> getOrder(Order order) {
-        return getOrder(order.getOrderId());
-    }
-
-    @Override
-    public List<Order> getAllOrders() {
+    public List<Order> getAll() {
         return Storage.orders;
     }
 

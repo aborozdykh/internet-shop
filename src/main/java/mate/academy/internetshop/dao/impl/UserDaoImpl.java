@@ -10,6 +10,14 @@ import mate.academy.internetshop.model.User;
 
 @Dao
 public class UserDaoImpl implements UserDao {
+
+    @Override
+    public User create() {
+        var user = new User();
+        Storage.addUser(user);
+        return user;
+    }
+
     @Override
     public User create(User user) {
         Storage.addUser(user);
@@ -17,7 +25,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Optional<User> getUser(Long userId) {
+    public Optional<User> get(Long userId) {
         return Storage.users
                 .stream()
                 .filter(user -> user.getUserId().equals(userId))
@@ -25,7 +33,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public List<User> getAllUsers() {
+    public List<User> getAll() {
         return Storage.users;
     }
 

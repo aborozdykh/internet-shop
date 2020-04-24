@@ -12,13 +12,20 @@ import mate.academy.internetshop.model.Product;
 public class ProductDaoImpl implements ProductDao {
 
     @Override
+    public Product create() {
+        var product = new Product();
+        Storage.addProduct(product);
+        return product;
+    }
+
+    @Override
     public Product create(Product product) {
         Storage.addProduct(product);
         return product;
     }
 
     @Override
-    public Optional<Product> getProduct(Long productId) {
+    public Optional<Product> get(Long productId) {
         return Storage.products
                 .stream()
                 .filter(product -> product.getProductId().equals(productId))
@@ -26,7 +33,7 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public List<Product> getAllProducts() {
+    public List<Product> getAll() {
         return Storage.products;
     }
 
@@ -41,10 +48,5 @@ public class ProductDaoImpl implements ProductDao {
     @Override
     public boolean delete(Long productId) {
         return Storage.products.removeIf(product -> product.getProductId().equals(productId));
-    }
-
-    @Override
-    public boolean delete(Product product) {
-        return delete(product.getProductId());
     }
 }
