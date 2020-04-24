@@ -8,6 +8,15 @@ public class ShoppingCart {
     private List<Product> products = new ArrayList<>();
     private User user;
 
+    public ShoppingCart(List<Product> products, User user) {
+        this.products = products;
+        this.user = user;
+    }
+
+    public ShoppingCart(User user) {
+        this.user = user;
+    }
+
     public User getUser() {
         return user;
     }
@@ -30,5 +39,14 @@ public class ShoppingCart {
 
     public void setProducts(List<Product> products) {
         this.products = products;
+    }
+
+    @Override
+    public String toString() {
+        return "ShoppingCart{"
+                + "shoppingCartId=" + shoppingCartId
+                + ", products=" + products
+                + ", user=" + user
+                + '}';
     }
 }
