@@ -25,9 +25,7 @@ public class Application {
         productService.create(product3);
         System.out.println(productService.getAllProducts());
         System.out.println(productService.getProduct(2L));
-        // productService.delete(product1);
         System.out.println("" + productService.delete((long) 5));
-        // System.out.println("" + productService.delete((long) 2));
         System.out.println(productService.getAllProducts());
 
         UserService userService = (UserService) injector.getInstance(UserService.class);
@@ -56,28 +54,22 @@ public class Application {
         shoppingCartService.addProduct(shoppingCart, product1);
         shoppingCartService.addProduct(shoppingCart, product2);
         shoppingCartService.addProduct(shoppingCart, product3);
-        System.out.println("Корзина юзера 2: " + shoppingCartService.getByUserId(2L));
-        System.out.println("Все продукты корзины до удаления: "
+        System.out.println("User2's cart: " + shoppingCartService.getByUserId(2L));
+        System.out.println("All products before delete: "
                 + shoppingCartService.getAllProducts(shoppingCart));
-        //        shoppingCartService.deleteProduct(shoppingCart, product1);
-        //        System.out.println("Все продукты корзины до удаления: "
-        //        + shoppingCartService.getAllProducts(shoppingCart));
-        //        shoppingCartService.clear(shoppingCart);
-        //        System.out.println("Корзина после clear: "
-        //        + shoppingCartService.getAllProducts(shoppingCart));
 
         /// Orders
         System.out.println("========================== Orders ==========================");
-        System.out.println("Юзер с id 2: " + userService.getUser(2L));
-        System.out.println("Корзина юзера 2: " + shoppingCartService.getByUserId(2L));
-        System.out.println("Все продукты корзины юзера 2: "
+        System.out.println("User with id 2: " + userService.getUser(2L));
+        System.out.println("User2's cart: " + shoppingCartService.getByUserId(2L));
+        System.out.println("All products in user2's cart: "
                 + shoppingCartService.getAllProducts(shoppingCart));
 
         OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
 
         orderService.completeOrder(shoppingCart.getProducts(), shoppingCart.getUser());
-        System.out.println("Все продукты корзины юзера 2 после создания заказа: "
+        System.out.println("All products in cart of user2after order created: "
                 + shoppingCartService.getAllProducts(shoppingCart));
-        System.out.println("Заказы юзера 2: " + orderService.getUserOrders(user2));
+        System.out.println("Orders of user2: " + orderService.getUserOrders(user2));
     }
 }
