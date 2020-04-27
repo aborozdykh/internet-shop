@@ -9,7 +9,7 @@ import mate.academy.internetshop.model.ShoppingCart;
 import mate.academy.internetshop.service.ShoppingCartService;
 
 @Service
-public class ShoppingCartImpl implements ShoppingCartService {
+public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Inject
     private ShoppingCartDao shoppingCartDao;
@@ -17,6 +17,26 @@ public class ShoppingCartImpl implements ShoppingCartService {
     @Override
     public ShoppingCart create(ShoppingCart shoppingCart) {
         return shoppingCartDao.create(shoppingCart);
+    }
+
+    @Override
+    public ShoppingCart get(Long id) {
+        return shoppingCartDao.get(id).get();
+    }
+
+    @Override
+    public List<ShoppingCart> getAll() {
+        return shoppingCartDao.getAll();
+    }
+
+    @Override
+    public ShoppingCart update(ShoppingCart shoppingCart) {
+        return shoppingCartDao.update(shoppingCart);
+    }
+
+    @Override
+    public boolean delete(Long id) {
+        return shoppingCartDao.delete(id);
     }
 
     @Override
@@ -40,16 +60,12 @@ public class ShoppingCartImpl implements ShoppingCartService {
 
     @Override
     public ShoppingCart getByUserId(Long userId) {
-        return shoppingCartDao.getAllShoppingCarts()
-                .stream()
-                .filter(shoppingCart -> shoppingCart.getUser().getUserId().equals(userId))
-                .findFirst()
-                .get();
+        return shoppingCartDao.getByUserId(userId);
     }
 
     @Override
     public List<Product> getAllProducts(ShoppingCart shoppingCart) {
-        return shoppingCartDao.getShoppingCart(shoppingCart.getShoppingCartId())
+        return shoppingCartDao.get(shoppingCart.getShoppingCartId())
                 .get().getProducts();
     }
 }

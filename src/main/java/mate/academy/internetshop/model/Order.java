@@ -13,9 +13,6 @@ public class Order {
         this.user = user;
     }
 
-    public Order() {
-    }
-
     public Long getOrderId() {
         return orderId;
     }
