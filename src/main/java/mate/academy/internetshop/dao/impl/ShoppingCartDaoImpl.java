@@ -10,14 +10,6 @@ import mate.academy.internetshop.model.ShoppingCart;
 
 @Dao
 public class ShoppingCartDaoImpl implements ShoppingCartDao {
-
-    @Override
-    public ShoppingCart create() {
-        var shoppingCart = new ShoppingCart();
-        Storage.addShoppingCart(shoppingCart);
-        return shoppingCart;
-    }
-
     @Override
     public ShoppingCart create(ShoppingCart shoppingCart) {
         Storage.addShoppingCart(shoppingCart);
@@ -50,5 +42,14 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
     public boolean delete(Long shoppingCartId) {
         return Storage.shoppingCarts.removeIf(shoppingCart
                 -> shoppingCart.getShoppingCartId().equals(shoppingCartId));
+    }
+
+    @Override
+    public ShoppingCart getByUserId(Long userId) {
+        return getAll()
+                .stream()
+                .filter(shoppingCart -> shoppingCart.getUser().getUserId().equals(userId))
+                .findFirst()
+                .get();
     }
 }

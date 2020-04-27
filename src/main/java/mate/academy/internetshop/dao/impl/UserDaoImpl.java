@@ -10,14 +10,6 @@ import mate.academy.internetshop.model.User;
 
 @Dao
 public class UserDaoImpl implements UserDao {
-
-    @Override
-    public User create() {
-        var user = new User();
-        Storage.addUser(user);
-        return user;
-    }
-
     @Override
     public User create(User user) {
         Storage.addUser(user);

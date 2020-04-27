@@ -1,7 +1,6 @@
 package mate.academy.internetshop.service.impl;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import mate.academy.internetshop.dao.OrderDao;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.lib.Service;
@@ -27,19 +26,15 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order completeOrder(List<Product> products, User user) {
-        Order order = orderDao.create();
-        order.setProducts(List.copyOf(products));
-        order.setUser(user);
+        // I should delete List.copyof when using SQL
+        var order = new Order(List.copyOf(products), user);
         shoppingCartService.clear(shoppingCartService.getByUserId(user.getUserId()));
-        return order;
+        return create(order);
     }
 
     @Override
     public List<Order> getUserOrders(User user) {
-        return orderDao.getAll()
-                .stream()
-                .filter(order -> order.getUser().getUserId().equals(user.getUserId()))
-                .collect(Collectors.toList());
+        return orderDao.getUserOrders(user);
     }
 
     @Override

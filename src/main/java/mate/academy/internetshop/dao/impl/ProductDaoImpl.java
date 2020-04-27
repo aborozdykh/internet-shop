@@ -10,14 +10,6 @@ import mate.academy.internetshop.model.Product;
 
 @Dao
 public class ProductDaoImpl implements ProductDao {
-
-    @Override
-    public Product create() {
-        var product = new Product();
-        Storage.addProduct(product);
-        return product;
-    }
-
     @Override
     public Product create(Product product) {
         Storage.addProduct(product);

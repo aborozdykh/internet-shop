@@ -5,7 +5,6 @@ import mate.academy.internetshop.model.Product;
 import mate.academy.internetshop.model.ShoppingCart;
 
 public interface ShoppingCartService extends GenericService<ShoppingCart, Long> {
-
     ShoppingCart addProduct(ShoppingCart shoppingCart, Product product);
 
     List<Product> getAllProducts(ShoppingCart shoppingCart);

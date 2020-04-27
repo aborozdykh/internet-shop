@@ -1,7 +1,9 @@
 package mate.academy.internetshop;
 
 import java.math.BigDecimal;
+import java.util.List;
 import mate.academy.internetshop.lib.Injector;
+import mate.academy.internetshop.model.Order;
 import mate.academy.internetshop.model.Product;
 import mate.academy.internetshop.model.ShoppingCart;
 import mate.academy.internetshop.model.User;
@@ -64,6 +66,8 @@ public class Application {
         System.out.println("User2's cart: " + shoppingCartService.getByUserId(2L));
         System.out.println("All products in user2's cart: "
                 + shoppingCartService.getAllProducts(shoppingCart));
+
+        var order = new Order(List.copyOf(shoppingCart.getProducts()), shoppingCart.getUser());
 
         var orderService = (OrderService) injector.getInstance(OrderService.class);
 
