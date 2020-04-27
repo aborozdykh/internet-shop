@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import mate.academy.internetshop.lib.Injector;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.UserService;
+import static mate.academy.internetshop.controllers.IndexController.isNullOrEmpty;
 
 public class RegistrationController extends HttpServlet {
     private static final Injector injector = Injector.getInstance("mate.academy");
@@ -24,19 +25,20 @@ public class RegistrationController extends HttpServlet {
             throws ServletException, IOException {
         String name = req.getParameter("name");
         String login = req.getParameter("login");
-        String password = req.getParameter("password");
-        String password2 = req.getParameter("password2");
-        if (password.equals(password2)){
+        String password = req.getParameter("pwd");
+        String repeatPassword = req.getParameter("pwd-repeat");
+        req.setAttribute("name", name);
+        req.setAttribute("login", login);
+        if (isNullOrEmpty(name, login, password, repeatPassword)) {
+            req.setAttribute("messageEmptyData", "Please put all data!");
+            req.getRequestDispatcher("/WEB-INF/views/registration.jsp").forward(req, resp);
+        } else if (!password.equals(repeatPassword)) {
+            req.setAttribute("messageDifferentPassword", "Passwords are different. Please put same passwords!");
+            req.getRequestDispatcher("/WEB-INF/views/registration.jsp").forward(req, resp);
+        } else {
             userService.create(new User(name, login, password));
             resp.sendRedirect(req.getContextPath() + "/");
-        } else{
-            req.setAttribute("message", "Passwords are different. Please put same passwords!");
-            req.getRequestDispatcher("/WEB-INF/views/registration.jsp").forward(req, resp);
         }
-
-
-
     }
-
-
 }
+
