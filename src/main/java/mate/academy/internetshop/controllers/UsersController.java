@@ -1,15 +1,33 @@
 package mate.academy.internetshop.controllers;
 
+import java.io.IOException;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import mate.academy.internetshop.lib.Injector;
+import mate.academy.internetshop.model.User;
+import mate.academy.internetshop.service.UserService;
 
 public class UsersController extends HttpServlet {
+    private static final Injector injector = Injector.getInstance("mate.academy");
+    private UserService userService = (UserService) injector.getInstance(UserService.class);
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+
+        var user1 = new User("Ferdinand", "ferdi", "nando");
+        var user2 = new User("CherniyPlash", "uzhas", "letyashiy_na_kryliah_nochi");
+        var user3 = new User("Praskoviya", "devushka", "iz_podmoskovya");
+        userService.create(user1);
+        userService.create(user2);
+        userService.create(user3);
+
+        List<User> allUsers = userService.getAll();
+
+        req.setAttribute("users", allUsers);
         req.getRequestDispatcher("/WEB-INF/views/users/all.jsp").forward(req, resp);
     }
 }
