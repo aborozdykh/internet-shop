@@ -18,7 +18,7 @@ public class Application {
     public static void main(String[] args) {
         var productService = (ProductService) injector.getInstance(ProductService.class);
 
-        /// Products
+        /// Products test travis
         var product1 = new Product("Apple", new BigDecimal(1000));
         var product2 = new Product("Nokia", new BigDecimal(100));
         var product3 = new Product("HTC", new BigDecimal(10));
