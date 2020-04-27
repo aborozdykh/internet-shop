@@ -21,4 +21,22 @@
         <servlet-name>allUsers</servlet-name>
         <url-pattern>/users/all</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>registration</servlet-name>
+        <servlet-class>mate.academy.internetshop.controllers.RegistrationController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>registration</servlet-name>
+        <url-pattern>/registration</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>addProduct</servlet-name>
+        <servlet-class>mate.academy.internetshop.controllers.AddProductController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>addProduct</servlet-name>
+        <url-pattern>/products/add</url-pattern>
+    </servlet-mapping>
 </web-app>

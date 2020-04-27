@@ -17,14 +17,6 @@ public class UsersController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-
-        var user1 = new User("Ferdinand", "ferdi", "nando");
-        var user2 = new User("CherniyPlash", "uzhas", "letyashiy_na_kryliah_nochi");
-        var user3 = new User("Praskoviya", "devushka", "iz_podmoskovya");
-        userService.create(user1);
-        userService.create(user2);
-        userService.create(user3);
-
         List<User> allUsers = userService.getAll();
 
         req.setAttribute("users", allUsers);
