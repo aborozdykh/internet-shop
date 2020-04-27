@@ -5,10 +5,11 @@
 </head>
 <body>
 <h1>Hello world! ${time}</h1>
-<a href="${pageContext.request.contextPath}/registration">Registration</a>
-<a href="${pageContext.request.contextPath}/inject">Inject test users into DB</a>
-<a href="${pageContext.request.contextPath}/users/all">All users</a>
-<a href="${pageContext.request.contextPath}/products/all">All products</a>
-<a href="${pageContext.request.contextPath}/products/add">Add product</a>
+<p><a href="${pageContext.request.contextPath}/registration">Registration</a></p>
+<p><a href="${pageContext.request.contextPath}/inject">Inject test data into DB</a></p>
+<p><a href="${pageContext.request.contextPath}/users/all">All users</a></p>
+<p><a href="${pageContext.request.contextPath}/products/all">All products</a></p>
+<p><a href="${pageContext.request.contextPath}/products/add">Add product</a></p>
+<p><a href="${pageContext.request.contextPath}/shoppingcart">Show shoppingcart</a></p>
 </body>
 </html>
