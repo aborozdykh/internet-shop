@@ -2,7 +2,6 @@ package mate.academy.internetshop.controllers;
 
 import java.io.IOException;
 import java.time.LocalTime;
-import java.util.Arrays;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,10 +16,5 @@ public class IndexController extends HttpServlet {
         req.setAttribute("time", timeValue);
 
         req.getRequestDispatcher("WEB-INF/views/index.jsp").forward(req, resp);
-    }
-
-    public static boolean isNullOrEmpty(String... strings) {
-        return Arrays.stream(strings)
-                .anyMatch(s -> s.isEmpty() || s == null);
     }
 }

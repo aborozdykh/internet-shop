@@ -1,7 +1,5 @@
 package mate.academy.internetshop.controllers;
 
-import static mate.academy.internetshop.controllers.IndexController.isNullOrEmpty;
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import javax.servlet.ServletException;
@@ -13,9 +11,9 @@ import mate.academy.internetshop.model.Product;
 import mate.academy.internetshop.service.ProductService;
 
 public class AddProductController extends HttpServlet {
-    private static final Injector injector = Injector.getInstance("mate.academy");
+    private static final Injector INJECTOR = Injector.getInstance("mate.academy");
     private ProductService productService
-            = (ProductService) injector.getInstance(ProductService.class);
+            = (ProductService) INJECTOR.getInstance(ProductService.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -31,12 +29,7 @@ public class AddProductController extends HttpServlet {
         req.setAttribute("name", name);
         req.setAttribute("price", productPrice);
         BigDecimal price = new BigDecimal(productPrice);
-        if (isNullOrEmpty(name, productPrice)) {
-            req.setAttribute("messageEmptyData", "Please put all data!");
-            req.getRequestDispatcher("/WEB-INF/views/registration.jsp").forward(req, resp);
-        } else {
-            productService.create(new Product(name, price));
-            resp.sendRedirect(req.getContextPath() + "/");
-        }
+        productService.create(new Product(name, price));
+        resp.sendRedirect(req.getContextPath() + "/");
     }
 }

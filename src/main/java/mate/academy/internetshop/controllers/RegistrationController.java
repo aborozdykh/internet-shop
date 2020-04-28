@@ -1,7 +1,5 @@
 package mate.academy.internetshop.controllers;
 
-import static mate.academy.internetshop.controllers.IndexController.isNullOrEmpty;
-
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -12,8 +10,8 @@ import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.UserService;
 
 public class RegistrationController extends HttpServlet {
-    private static final Injector injector = Injector.getInstance("mate.academy");
-    private UserService userService = (UserService) injector.getInstance(UserService.class);
+    private static final Injector INJECTOR = Injector.getInstance("mate.academy");
+    private UserService userService = (UserService) INJECTOR.getInstance(UserService.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -30,10 +28,7 @@ public class RegistrationController extends HttpServlet {
         String repeatPassword = req.getParameter("pwd-repeat");
         req.setAttribute("name", name);
         req.setAttribute("login", login);
-        if (isNullOrEmpty(name, login, password, repeatPassword)) {
-            req.setAttribute("messageEmptyData", "Please put all data!");
-            req.getRequestDispatcher("/WEB-INF/views/registration.jsp").forward(req, resp);
-        } else if (!password.equals(repeatPassword)) {
+        if (!password.equals(repeatPassword)) {
             req.setAttribute("messageDifferentPassword",
                     "Passwords are different. Please put same passwords!");
             req.getRequestDispatcher("/WEB-INF/views/registration.jsp").forward(req, resp);
