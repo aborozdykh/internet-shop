@@ -20,7 +20,8 @@
                 <c:out value="${order.user.name}"/>
             </td>
             <td>
-                <a href="${pageContext.request.contextPath}/orders/addtoshoppingcart?id=${order.orderId}">Edit</a>
+                <a href="${pageContext.request.contextPath}/orders/show?id=${order.orderId}">Show order</a>
+                <a href="${pageContext.request.contextPath}/orders/delete?id=${order.orderId}">Delete order</a>
             </td>
         </tr>
     </c:forEach>

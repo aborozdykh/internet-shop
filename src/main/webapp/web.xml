@@ -111,4 +111,40 @@
         <url-pattern>/orders/complete</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>showOrder</servlet-name>
+        <servlet-class>mate.academy.internetshop.controllers.GetOrderController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>showOrder</servlet-name>
+        <url-pattern>/orders/show</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>deleteOrder</servlet-name>
+        <servlet-class>mate.academy.internetshop.controllers.DeleteOrderController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>deleteOrder</servlet-name>
+        <url-pattern>/orders/delete</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>deleteProduct</servlet-name>
+        <servlet-class>mate.academy.internetshop.controllers.DeleteProductController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>deleteProduct</servlet-name>
+        <url-pattern>/admin/products/delete</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>adminAllProduct</servlet-name>
+        <servlet-class>mate.academy.internetshop.controllers.AdminGetAllProductsController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>adminAllProduct</servlet-name>
+        <url-pattern>/admin/products/all</url-pattern>
+    </servlet-mapping>
+
 </web-app>
