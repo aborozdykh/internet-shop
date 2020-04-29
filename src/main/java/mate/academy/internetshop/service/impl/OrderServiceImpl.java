@@ -28,7 +28,6 @@ public class OrderServiceImpl implements OrderService {
     public Order completeOrder(List<Product> products, User user) {
         // I should delete List.copyof when using SQL
         var order = new Order(List.copyOf(products), user);
-        shoppingCartService.clear(shoppingCartService.getByUserId(user.getUserId()));
         return create(order);
     }
 

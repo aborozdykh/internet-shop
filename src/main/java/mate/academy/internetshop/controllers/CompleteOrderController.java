@@ -19,8 +19,9 @@ public class CompleteOrderController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        orderService.completeOrder(shoppingCartService.getByUserId(USER_ID).getProducts(),
-                shoppingCartService.getByUserId(USER_ID).getUser());
+        var shoppingCart = shoppingCartService.getByUserId(USER_ID);
+        orderService.completeOrder(shoppingCart.getProducts(), shoppingCart.getUser());
+        shoppingCartService.clear(shoppingCart);
         resp.sendRedirect(req.getContextPath() + "/shoppingcart");
     }
 }
