@@ -15,7 +15,6 @@ public class CompleteOrderController extends HttpServlet {
     private static final Injector INJECTOR = Injector.getInstance("mate.academy");
     private ShoppingCartService shoppingCartService
             = (ShoppingCartService) INJECTOR.getInstance(ShoppingCartService.class);
-    private UserService userService = (UserService) INJECTOR.getInstance(UserService.class);
     private OrderService orderService = (OrderService) INJECTOR.getInstance(OrderService.class);
 
     @Override
