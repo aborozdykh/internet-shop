@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import mate.academy.internetshop.lib.Injector;
 import mate.academy.internetshop.service.OrderService;
 import mate.academy.internetshop.service.ShoppingCartService;
-import mate.academy.internetshop.service.UserService;
 
 public class CompleteOrderController extends HttpServlet {
     private static final Long USER_ID = 1L;
