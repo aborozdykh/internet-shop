@@ -20,7 +20,6 @@ public class GetOrderController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-
         String orderId = req.getParameter("id");
         List<Product> productsInOrder = orderService.get(Long.valueOf(orderId)).getProducts();
         req.setAttribute("products", productsInOrder);
