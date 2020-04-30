@@ -1,5 +1,6 @@
 package mate.academy.internetshop.dao.impl;
 
+import java.awt.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
@@ -40,5 +41,13 @@ public class UserDaoImpl implements UserDao {
     @Override
     public boolean delete(Long userId) {
         return Storage.users.removeIf(product -> product.getUserId().equals(userId));
+    }
+
+    @Override
+    public Optional<User> findByLogin(String login) {
+        return Storage.users
+                .stream()
+                .filter(user -> user.getLogin().equals(login))
+                .findFirst();
     }
 }
