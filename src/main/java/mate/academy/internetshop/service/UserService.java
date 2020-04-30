@@ -4,5 +4,5 @@ import java.util.Optional;
 import mate.academy.internetshop.model.User;
 
 public interface UserService extends GenericService<User, Long> {
-    User findByLogin(String login);
+    Optional<User> findByLogin(String login);
 }

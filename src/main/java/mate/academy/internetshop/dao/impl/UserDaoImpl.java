@@ -1,6 +1,5 @@
 package mate.academy.internetshop.dao.impl;
 
-import java.awt.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;

@@ -5,12 +5,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import mate.academy.internetshop.exceptions.AuthenticationException;
 import mate.academy.internetshop.lib.Injector;
-import mate.academy.internetshop.service.UserService;
+import mate.academy.internetshop.security.AuthenticationService;
 
 public class LoginController extends HttpServlet {
     private static final Injector INJECTOR = Injector.getInstance("mate.academy");
-    private UserService userService = (UserService) INJECTOR.getInstance(UserService.class);
+    private AuthenticationService authenticationService
+            = (AuthenticationService) INJECTOR.getInstance(AuthenticationService.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -23,21 +25,13 @@ public class LoginController extends HttpServlet {
             throws ServletException, IOException {
         String login = req.getParameter("login");
         String pwd = req.getParameter("pwd");
-
-        var user = userService.findByLogin(login);
-//        if (user. )
-//        ) {
-//            req.setAttribute("messageWrongLogin",
-//                    "Wrong login! Please put correct login.");
-//            req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);
-//        } else if (userService.getAll()
-//                .stream()
-//                .anyMatch(user -> user.getLogin().equals(login) && !user.getPassword().equals(pwd))){
-//            req.setAttribute("messageWrongPassword",
-//                    "Wrong password! Please put correct password.");
-//        } else
-//        {
-//            resp.sendRedirect(req.getContextPath() + "/");
-//        }
+        try {
+            var user = authenticationService.login(login, pwd);
+        } catch (AuthenticationException e) {
+            req.setAttribute("errorMsg", e.getMessage());
+            req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);
+            return;
+        }
+        resp.sendRedirect(req.getContextPath() + "/");
     }
 }
