@@ -8,7 +8,7 @@ import mate.academy.internetshop.security.AuthenticationService;
 import mate.academy.internetshop.service.UserService;
 
 @Service
-public class AuthenticarionServiceImpl implements AuthenticationService {
+public class AuthenticationServiceImpl implements AuthenticationService {
     @Inject
     private UserService userService;
 

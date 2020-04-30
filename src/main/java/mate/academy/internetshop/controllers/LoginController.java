@@ -5,6 +5,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import mate.academy.internetshop.exceptions.AuthenticationException;
 import mate.academy.internetshop.lib.Injector;
 import mate.academy.internetshop.security.AuthenticationService;
@@ -27,6 +28,8 @@ public class LoginController extends HttpServlet {
         String pwd = req.getParameter("pwd");
         try {
             var user = authenticationService.login(login, pwd);
+            HttpSession session = req.getSession();
+            session.setAttribute("user_id", user.getUserId());
         } catch (AuthenticationException e) {
             req.setAttribute("errorMsg", e.getMessage());
             req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);
