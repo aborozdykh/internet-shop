@@ -9,7 +9,7 @@
 
 <table border="1">
     <tr>
-        <th>ID</th>
+        <th>User ID</th>
         <th>Name</th>
         <th>Operation</th>
     </tr>
