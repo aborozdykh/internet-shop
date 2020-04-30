@@ -11,6 +11,7 @@ import mate.academy.internetshop.lib.Injector;
 import mate.academy.internetshop.security.AuthenticationService;
 
 public class LoginController extends HttpServlet {
+    private static final String USER_ID = "user_id";
     private static final Injector INJECTOR = Injector.getInstance("mate.academy");
     private AuthenticationService authenticationService
             = (AuthenticationService) INJECTOR.getInstance(AuthenticationService.class);
@@ -29,7 +30,7 @@ public class LoginController extends HttpServlet {
         try {
             var user = authenticationService.login(login, pwd);
             HttpSession session = req.getSession();
-            session.setAttribute("user_id", user.getUserId());
+            session.setAttribute(USER_ID, user.getUserId());
         } catch (AuthenticationException e) {
             req.setAttribute("errorMsg", e.getMessage());
             req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);
