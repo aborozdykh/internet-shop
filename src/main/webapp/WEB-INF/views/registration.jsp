@@ -1,20 +1,38 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <title>Registration</title>
 </head>
 <body>
-<div align="center">
-    <h1>User registration</h1>
-    <h2 style="color: red">${messageDifferentPassword}</h2>
-    <form action="${pageContext.request.contextPath}/registration" method="post" >
-        Name: <input type="text" name="name" placeholder="Name" value="${name}">
-        Login: <input type="text" name="login" placeholder="Login" value="${login}">
-        Password: <input type="password" name="pwd" required placeholder="Password">
-        Repeat password: <input type="password" name="pwd-repeat" required placeholder="Repeat password">
-
-        <button type="submit">Register</button>
-    </form>
+<div class="container d-flex h-100">
+    <div class="row align-self-center w-100">
+        <div class="col-4 mx-auto">
+            <h1 class="display-6" align="center">User registration</h1>
+            <div class="jumbotron">
+                <form action="${pageContext.request.contextPath}/registration" method="post">
+                    <div class="form-group">
+                        <input type="text" name="name" class="form-control" placeholder="Name"
+                               value="${name}">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="login" class="form-control" placeholder="Login"
+                               value="${login}">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="pwd" required class="form-control" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="pwd-repeat" required class="form-control"
+                               placeholder="Repeat password">
+                    </div>
+                    <h6 style="color: red">${messageDifferentPassword}</h6>
+                    <button type="submit" class="btn btn-primary btn-block">Register</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>
