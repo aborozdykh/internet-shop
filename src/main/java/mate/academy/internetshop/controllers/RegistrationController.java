@@ -1,11 +1,13 @@
 package mate.academy.internetshop.controllers;
 
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import mate.academy.internetshop.lib.Injector;
+import mate.academy.internetshop.model.Role;
 import mate.academy.internetshop.model.ShoppingCart;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.ShoppingCartService;
@@ -38,6 +40,7 @@ public class RegistrationController extends HttpServlet {
             req.getRequestDispatcher("/WEB-INF/views/registration.jsp").forward(req, resp);
         } else {
             var user = new User(name, login, password);
+            user.setRoles(List.of(Role.of("USER")));
             var shoppingCart = new ShoppingCart(user);
             userService.create(user);
             shoppingCartService.create(shoppingCart);
