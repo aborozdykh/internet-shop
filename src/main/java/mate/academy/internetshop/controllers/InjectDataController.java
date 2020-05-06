@@ -2,7 +2,7 @@ package mate.academy.internetshop.controllers;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -27,11 +27,11 @@ public class InjectDataController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         var bob = new User("Bob", "bob", "1");
-        bob.setRoles(List.of(Role.of("USER")));
+        bob.setRoles(Set.of(Role.of("USER")));
         var alisa = new User("Alisa", "alisa", "1");
-        alisa.setRoles(List.of(Role.of("USER")));
+        alisa.setRoles(Set.of(Role.of("USER")));
         var admin = new User("Admin", "admin", "1");
-        admin.setRoles(List.of(Role.of("ADMIN")));
+        admin.setRoles(Set.of(Role.of("ADMIN")));
         userService.create(bob);
         userService.create(alisa);
         userService.create(admin);
