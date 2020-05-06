@@ -10,6 +10,7 @@ import mate.academy.internetshop.service.UserService;
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
     public static final String INCORRECT_LOGIN_OR_PASSWORD = "Enter valid login and password.";
+
     @Inject
     private UserService userService;
 
