@@ -1,7 +1,6 @@
 package mate.academy.internetshop.controllers;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

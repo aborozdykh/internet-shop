@@ -1,6 +1,5 @@
 package mate.academy.internetshop.model;
 
-import java.util.List;
 import java.util.Set;
 
 public class User {
