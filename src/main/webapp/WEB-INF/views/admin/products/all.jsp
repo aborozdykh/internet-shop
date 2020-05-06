@@ -29,5 +29,6 @@
         </tr>
     </c:forEach>
 </table>
+<p><a href="${pageContext.request.contextPath}/admin/products/add">Add product</a></p>
 </body>
 </html>

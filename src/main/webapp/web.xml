@@ -19,7 +19,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>getAllUsers</servlet-name>
-        <url-pattern>/users/all</url-pattern>
+        <url-pattern>/admin/users/all</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -46,7 +46,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>addProduct</servlet-name>
-        <url-pattern>/products/add</url-pattern>
+        <url-pattern>/admin/products/add</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -64,7 +64,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>deleteUser</servlet-name>
-        <url-pattern>/users/delete</url-pattern>
+        <url-pattern>/admin/users/delete</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -73,7 +73,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>addToShoppingCart</servlet-name>
-        <url-pattern>/products/addtoshoppingcart</url-pattern>
+        <url-pattern>/shoppingcart/products/add</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -82,7 +82,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>deleteFromShoppingCart</servlet-name>
-        <url-pattern>/deletefromshoppingcart</url-pattern>
+        <url-pattern>/shoppingcart/products/delete</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -156,12 +156,30 @@
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>logout</servlet-name>
+        <servlet-class>mate.academy.internetshop.controllers.LogoutController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>logout</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+
     <filter>
         <filter-name>authenticationFilter</filter-name>
         <filter-class>mate.academy.internetshop.web.filters.AuthenticationFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>authenticationFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>authorizationFilter</filter-name>
+        <filter-class>mate.academy.internetshop.web.filters.AuthorizationFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>authorizationFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
