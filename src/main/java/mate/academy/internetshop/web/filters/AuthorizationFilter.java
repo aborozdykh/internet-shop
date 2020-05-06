@@ -48,7 +48,6 @@ public class AuthorizationFilter implements Filter {
         HttpServletResponse resp = (HttpServletResponse) response;
         String requestedUrl = req.getServletPath();
 
-        // URLs: logout, index, inject data
         if (protectedUrls.get(requestedUrl) == null) {
             chain.doFilter(req, resp);
             return;
@@ -63,7 +62,6 @@ public class AuthorizationFilter implements Filter {
         if (isAuthorized(user, protectedUrls.get(requestedUrl))) {
             chain.doFilter(req, resp);
         } else {
-            // access denied
             LOGGER.warn("User " + user.getLogin() + " forbidden access to page " + requestedUrl);
             req.getRequestDispatcher("/WEB-INF/views/accessDenied.jsp").forward(req, resp);
         }
