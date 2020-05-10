@@ -29,21 +29,17 @@ public class ProductDaoJdbcImpl implements ProductDao {
                     connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, product.getName());
             statement.setBigDecimal(2, product.getPrice());
-            // I don't know exactly if I need to do this check because next 'try' block do the same
             if (statement.executeUpdate() == 0) {
-                LOGGER.error("Creating product failed, no rows affected");
                 throw new DataProcessingException("Creating product failed, no rows affected.");
             }
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     product.setProductId(generatedKeys.getLong(1));
                 } else {
-                    LOGGER.error("Creating product failed, no ID obtained");
                     throw new DataProcessingException("Creating product failed, no ID obtained");
                 }
             }
         } catch (SQLException e) {
-            LOGGER.error("Can't create statement", e);
             throw new DataProcessingException("Can't create statement", e);
         }
         return product;
@@ -77,7 +73,6 @@ public class ProductDaoJdbcImpl implements ProductDao {
             }
             return productList;
         } catch (SQLException e) {
-            LOGGER.error("Can't create statement", e);
             throw new DataProcessingException("Can't create statement", e);
         }
     }
@@ -93,7 +88,6 @@ public class ProductDaoJdbcImpl implements ProductDao {
                 LOGGER.warn("Updating product failed, no rows affected");
             }
         } catch (SQLException e) {
-            LOGGER.error("Can't create statement", e);
             throw new DataProcessingException("Can't create statement", e);
         }
         return product;
@@ -111,7 +105,6 @@ public class ProductDaoJdbcImpl implements ProductDao {
             }
             return true;
         } catch (SQLException e) {
-            LOGGER.error("Can't create statement", e);
             throw new DataProcessingException("Can't create statement", e);
         }
     }
@@ -124,8 +117,8 @@ public class ProductDaoJdbcImpl implements ProductDao {
             id = resultSet.getLong("product_id");
             name = resultSet.getString("product_name");
             price = resultSet.getBigDecimal("price");
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            throw new DataProcessingException("Can't get product", e);
         }
         return new Product(id, name, price);
     }
