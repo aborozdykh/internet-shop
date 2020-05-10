@@ -52,10 +52,7 @@ public class ProductDaoJdbcImpl implements ProductDao {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery(query);
-            var name = resultSet.getString("product_name");
-            var price = resultSet.getBigDecimal("price");
-            var product = new Product(id, name, price);
-            return Optional.of(product);
+            return Optional.of(getProductFromResultSet(resultSet));
         } catch (SQLException e) {
             throw new DataProcessingException("Can't create statement", e);
         }
