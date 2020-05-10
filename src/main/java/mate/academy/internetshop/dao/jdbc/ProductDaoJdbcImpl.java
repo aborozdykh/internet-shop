@@ -1,5 +1,6 @@
 package mate.academy.internetshop.dao.jdbc;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -60,7 +61,6 @@ public class ProductDaoJdbcImpl implements ProductDao {
             var product = new Product(id, name, price);
             return Optional.of(product);
         } catch (SQLException e) {
-            LOGGER.error("Can't create statement", e);
             throw new DataProcessingException("Can't create statement", e);
         }
     }
@@ -73,11 +73,7 @@ public class ProductDaoJdbcImpl implements ProductDao {
             ResultSet resultSet = statement.executeQuery(query);
             List<Product> productList = new ArrayList<>();
             while (resultSet.next()) {
-                var id = resultSet.getLong("product_id");
-                var name = resultSet.getString("product_name");
-                var price = resultSet.getBigDecimal("price");
-                var product = new Product(id, name, price);
-                productList.add(product);
+                productList.add(getProductFromResultSet(resultSet));
             }
             return productList;
         } catch (SQLException e) {
@@ -94,7 +90,7 @@ public class ProductDaoJdbcImpl implements ProductDao {
             statement.setString(1, product.getName());
             statement.setBigDecimal(2, product.getPrice());
             if (statement.executeUpdate() == 0) {
-                LOGGER.error("Updating product failed, no rows affected");
+                LOGGER.warn("Updating product failed, no rows affected");
             }
         } catch (SQLException e) {
             LOGGER.error("Can't create statement", e);
@@ -118,5 +114,19 @@ public class ProductDaoJdbcImpl implements ProductDao {
             LOGGER.error("Can't create statement", e);
             throw new DataProcessingException("Can't create statement", e);
         }
+    }
+
+    public Product getProductFromResultSet(ResultSet resultSet) {
+        long id = 0;
+        String name = null;
+        BigDecimal price = null;
+        try {
+            id = resultSet.getLong("product_id");
+            name = resultSet.getString("product_name");
+            price = resultSet.getBigDecimal("price");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return new Product(id, name, price);
     }
 }
