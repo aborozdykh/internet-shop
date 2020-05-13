@@ -11,18 +11,20 @@ import java.util.Optional;
 import java.util.Set;
 import mate.academy.internetshop.dao.UserDao;
 import mate.academy.internetshop.exceptions.DataProcessingException;
+import mate.academy.internetshop.lib.Dao;
 import mate.academy.internetshop.model.Role;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.util.ConnectionUtil;
 import org.apache.log4j.Logger;
+
 
 public class UserDaoJdbcImpl implements UserDao {
     private static final Logger LOGGER = Logger.getLogger(UserDaoJdbcImpl.class);
 
     @Override
     public Optional<User> findByLogin(String login) {
-        String query = "SELECT * FROM users u JOIN users_roles ur ON u.user_id = ur.user_id JOIN"
-                + "roles r ON ur.role_id = r.role_id WHERE u.login= ?";
+        String query = "SELECT * FROM users u JOIN users_roles ur ON u.user_id = ur.user_id JOIN "
+                + "roles r ON ur.role_id = r.role_id WHERE u.login = ?;";
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, login);
@@ -56,7 +58,7 @@ public class UserDaoJdbcImpl implements UserDao {
 
     @Override
     public Optional<User> get(Long id) {
-        String query = "SELECT * FROM users u JOIN users_roles ur ON u.user_id = ur.user_id JOIN"
+        String query = "SELECT * FROM users u JOIN users_roles ur ON u.user_id = ur.user_id JOIN "
                 + "roles r ON ur.role_id = r.role_id WHERE user_id = ?";
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query);
