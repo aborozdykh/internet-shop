@@ -28,6 +28,6 @@ public class AddProductController extends HttpServlet {
         String productPrice = req.getParameter("price");
         BigDecimal price = new BigDecimal(productPrice);
         productService.create(new Product(name, price));
-        resp.sendRedirect(req.getContextPath() + "/admin/product/all");
+        resp.sendRedirect(req.getContextPath() + "/admin/products/all");
     }
 }
