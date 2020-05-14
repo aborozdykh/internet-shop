@@ -8,7 +8,7 @@
 <table border="1">
     <tr>
         <th>Order ID</th>
-        <th>User</th>
+        <th>User ID</th>
         <th>Operation</th>
     </tr>
     <c:forEach var="order" items="${orders}">
@@ -17,7 +17,7 @@
                 <c:out value="${order.orderId}"/>
             </td>
             <td>
-                <c:out value="${order.user.name}"/>
+                <c:out value="${order.userId}"/>
             </td>
             <td>
                 <a href="${pageContext.request.contextPath}/orders/show?id=${order.orderId}">Show order</a>

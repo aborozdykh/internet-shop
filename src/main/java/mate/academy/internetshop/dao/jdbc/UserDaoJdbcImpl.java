@@ -41,7 +41,7 @@ public class UserDaoJdbcImpl implements UserDao {
 
     @Override
     public User create(User user) {
-        String query = "INSERT INTO users (user_name , login, password) VALUES (?, ?, ?)";
+        String query = "INSERT INTO users (user_name, login, password) VALUES (?, ?, ?)";
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement =
                     connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -115,24 +115,18 @@ public class UserDaoJdbcImpl implements UserDao {
     @Override
     public boolean delete(Long id) {
         String deleteUserFromUsersQuery = "DELETE FROM users WHERE user_id = ?";
-        String deleteUserFromShoppingCartsQuery = "DELETE FROM shopping_carts WHERE user_id = ?";
         String deleteUserFromUsersRolesQuery = "DELETE FROM users_roles WHERE user_id = ?";
-        try (Connection connection = ConnectionUtil.getConnection()) {
-            deleteByQuery(connection, deleteUserFromShoppingCartsQuery, id);
-            deleteByQuery(connection, deleteUserFromUsersRolesQuery, id);
-            return deleteByQuery(connection, deleteUserFromUsersQuery, id);
-        } catch (SQLException e) {
-            throw new DataProcessingException("Can't delete product", e);
-        }
+        deleteByQuery(deleteUserFromUsersRolesQuery, id);
+        return deleteByQuery(deleteUserFromUsersQuery, id);
     }
 
     private Set<Role> getUserRoles(User user) {
         Set<Role> roles = new HashSet<>();
-        String query = "SELECT roles.role_name "
-                + "FROM users_roles "
-                + "INNER JOIN roles "
-                + "ON  users_roles.role_id=roles.role_id "
-                + "WHERE users_roles.user_id = ?;";
+        String query = "SELECT r.role_name "
+                + "FROM users_roles ur "
+                + "INNER JOIN roles r "
+                + "ON  ur.role_id=r.role_id "
+                + "WHERE ur.user_id = ?;";
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setLong(1, user.getUserId());
@@ -164,7 +158,7 @@ public class UserDaoJdbcImpl implements UserDao {
         try (Connection connection = ConnectionUtil.getConnection()) {
             for (Role role : user.getRoles()) {
                 String query = "INSERT INTO users_roles (user_id, role_id) "
-                        + "VALUES (?,?)";
+                        + "VALUES (?, ?)";
                 PreparedStatement statement = connection.prepareStatement(query);
                 statement.setLong(1, user.getUserId());
                 statement.setLong(2, role.getId());
@@ -177,25 +171,12 @@ public class UserDaoJdbcImpl implements UserDao {
 
     private void deleteUserRoles(User user) {
         try (Connection connection = ConnectionUtil.getConnection()) {
-            String query = "DELETE FROM users_roles WHERE user_id=?;";
+            String query = "DELETE FROM users_roles WHERE user_id = ?;";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setLong(1, user.getUserId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new DataProcessingException("Can't delete roles of user", e);
-        }
-    }
-
-    private boolean deleteByQuery(Connection connection, String query, long id) {
-        try {
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setLong(1, id);
-            if (statement.executeUpdate() == 0) {
-                return false;
-            }
-            return true;
-        } catch (SQLException e) {
-            throw new DataProcessingException("Can't delete by query " + query, e);
+            throw new DataProcessingException("Can't delete user's roles", e);
         }
     }
 }

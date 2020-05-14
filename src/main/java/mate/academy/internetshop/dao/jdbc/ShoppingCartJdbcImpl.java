@@ -18,8 +18,6 @@ import mate.academy.internetshop.util.ConnectionUtil;
 
 @Dao
 public class ShoppingCartJdbcImpl implements ShoppingCartDao {
-
-
     @Override
     public ShoppingCart getByUserId(Long userId) {
         String query = "SELECT * FROM shopping_carts WHERE user_id = ?";
@@ -78,11 +76,11 @@ public class ShoppingCartJdbcImpl implements ShoppingCartDao {
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
-            List<ShoppingCart> shoppingCarts = new ArrayList<>();
+            List<ShoppingCart> shoppingCartList = new ArrayList<>();
             while (resultSet.next()) {
-                shoppingCarts.add(getShoppingCartFromResultSet(resultSet));
+                shoppingCartList.add(getShoppingCartFromResultSet(resultSet));
             }
-            return shoppingCarts;
+            return shoppingCartList;
         } catch (SQLException e) {
             throw new DataProcessingException("Can't get all shopping carts", e);
         }
@@ -90,24 +88,19 @@ public class ShoppingCartJdbcImpl implements ShoppingCartDao {
 
     @Override
     public ShoppingCart update(ShoppingCart shoppingCart) {
-        deleteProductsFromCart(shoppingCart);
-        addProductsToCart(shoppingCart);
+        deleteProductsFromShoppingCart(shoppingCart);
+        addProductsToShoppingCart(shoppingCart);
         return shoppingCart;
     }
 
     @Override
     public boolean delete(Long id) {
-        String query = "DELETE FROM shopping_carts WHERE shopping_cart_id = ?";
-        try (Connection connection = ConnectionUtil.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setLong(1, id);
-            if (statement.executeUpdate() == 0) {
-                return false;
-            }
-            return true;
-        } catch (SQLException e) {
-            throw new DataProcessingException("Can't delete by query " + query, e);
-        }
+        String deleteFromShoppingCartsQuery
+                = "DELETE FROM shopping_carts WHERE shopping_cart_id = ?";
+        String deleteFromShoppingCartsProductsQuery
+                = "DELETE FROM shopping_carts_products WHERE shopping_cart_id = ?";
+        deleteByQuery(deleteFromShoppingCartsProductsQuery, id);
+        return deleteByQuery(deleteFromShoppingCartsQuery, id);
     }
 
     private ShoppingCart getShoppingCartFromResultSet(ResultSet resultSet) {
@@ -126,8 +119,8 @@ public class ShoppingCartJdbcImpl implements ShoppingCartDao {
         String query = "SELECT p.product_id, p.product_name, p.price "
                 + "FROM shopping_carts_products scp "
                 + "JOIN products p "
-                + "ON  scp.product_id=p.product_id "
-                + "WHERE scp.shopping_cart_id = ?;";
+                + "ON scp.product_id=p.product_id "
+                + "WHERE scp.shopping_cart_id = ?";
         try (Connection connection = ConnectionUtil.getConnection()) {
             List<Product> products = new ArrayList<>();
             PreparedStatement statement = connection.prepareStatement(query);
@@ -145,7 +138,7 @@ public class ShoppingCartJdbcImpl implements ShoppingCartDao {
         }
     }
 
-    private void addProductsToCart(ShoppingCart shoppingCart) {
+    private void addProductsToShoppingCart(ShoppingCart shoppingCart) {
         try (Connection connection = ConnectionUtil.getConnection()) {
             for (Product product : shoppingCart.getProducts()) {
                 String query = "INSERT INTO shopping_carts_products(shopping_cart_id, product_id) "
@@ -160,7 +153,7 @@ public class ShoppingCartJdbcImpl implements ShoppingCartDao {
         }
     }
 
-    private void deleteProductsFromCart(ShoppingCart shoppingCart) {
+    private void deleteProductsFromShoppingCart(ShoppingCart shoppingCart) {
         try (Connection connection = ConnectionUtil.getConnection()) {
             String query = "DELETE FROM shopping_carts_products WHERE shopping_cart_id=?;";
             PreparedStatement statement = connection.prepareStatement(query);

@@ -26,9 +26,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order completeOrder(List<Product> products, User user) {
-        // I should delete List.copyof when using SQL
-        var order = new Order(List.copyOf(products), user);
-        return create(order);
+        return orderDao.create(new Order(products, user));
     }
 
     @Override

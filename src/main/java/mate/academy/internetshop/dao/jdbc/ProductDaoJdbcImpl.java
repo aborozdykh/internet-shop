@@ -90,18 +90,13 @@ public class ProductDaoJdbcImpl implements ProductDao {
 
     @Override
     public boolean delete(Long id) {
-        String query = "DELETE FROM products WHERE product_id = ?";
-        try (Connection connection = ConnectionUtil.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setLong(1, id);
-            if (statement.executeUpdate() == 0) {
-                LOGGER.info("Deleting  product failed, no rows affected");
-                return false;
-            }
-            return true;
-        } catch (SQLException e) {
-            throw new DataProcessingException("Can't delete product", e);
-        }
+        String deleteFromProductsQuery = "DELETE FROM products WHERE product_id = ?";
+        String deleteFromPOrdersProductsQuery = "DELETE FROM orders_products WHERE product_id = ?";
+        String deleteFromShoppingCartsProductsQuery
+                = "DELETE FROM shopping_carts_products WHERE product_id = ?";
+        deleteByQuery(deleteFromPOrdersProductsQuery, id);
+        deleteByQuery(deleteFromShoppingCartsProductsQuery, id);
+        return deleteByQuery(deleteFromProductsQuery, id);
     }
 
     public Product getProductFromResultSet(ResultSet resultSet) {
