@@ -45,8 +45,12 @@ public class ProductDaoJdbcImpl implements ProductDao {
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setLong(1, id);
-            ResultSet resultSet = statement.executeQuery(query);
-            return Optional.of(getProductFromResultSet(resultSet));
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                var user = getProductFromResultSet(resultSet);
+                return Optional.of(user);
+            }
+            return Optional.empty();
         } catch (SQLException e) {
             throw new DataProcessingException("Can't get product", e);
         }
@@ -57,7 +61,7 @@ public class ProductDaoJdbcImpl implements ProductDao {
         String query = "SELECT * FROM products";
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query);
-            ResultSet resultSet = statement.executeQuery(query);
+            ResultSet resultSet = statement.executeQuery();
             List<Product> productList = new ArrayList<>();
             while (resultSet.next()) {
                 productList.add(getProductFromResultSet(resultSet));

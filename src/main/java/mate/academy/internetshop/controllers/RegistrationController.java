@@ -41,8 +41,8 @@ public class RegistrationController extends HttpServlet {
         } else {
             var user = new User(name, login, password);
             user.setRoles(Set.of(Role.of("USER")));
-            var shoppingCart = new ShoppingCart(user);
             userService.create(user);
+            var shoppingCart = new ShoppingCart(user);
             shoppingCartService.create(shoppingCart);
             resp.sendRedirect(req.getContextPath() + "/");
         }

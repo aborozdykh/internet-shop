@@ -11,6 +11,10 @@ public class ShoppingCart {
     public ShoppingCart() {
     }
 
+    public ShoppingCart(Long userId) {
+        this.userId = userId;
+    }
+
     public ShoppingCart(Long shoppingCartId, User user) {
         this.shoppingCartId = shoppingCartId;
         this.userId = user.getUserId();
@@ -27,6 +31,7 @@ public class ShoppingCart {
     }
 
     public ShoppingCart(User user) {
+        products = new ArrayList<>();
         this.userId = user.getUserId();
     }
 

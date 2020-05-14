@@ -11,17 +11,19 @@ import java.util.List;
 import java.util.Optional;
 import mate.academy.internetshop.dao.ShoppingCartDao;
 import mate.academy.internetshop.exceptions.DataProcessingException;
+import mate.academy.internetshop.lib.Dao;
 import mate.academy.internetshop.model.Product;
 import mate.academy.internetshop.model.ShoppingCart;
 import mate.academy.internetshop.util.ConnectionUtil;
 
+@Dao
 public class ShoppingCartJdbcImpl implements ShoppingCartDao {
 
 
     @Override
     public ShoppingCart getByUserId(Long userId) {
         String query = "SELECT * FROM shopping_carts WHERE user_id = ?";
-        var shoppingCart = new ShoppingCart();
+        var shoppingCart = new ShoppingCart(userId);
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setLong(1, userId);
@@ -121,11 +123,11 @@ public class ShoppingCartJdbcImpl implements ShoppingCartDao {
     }
 
     private List<Product> getProductsFromShoppingCart(ShoppingCart shoppingCart) {
-        String query = "SELECT p.product_id, p.name, p.price "
-                + "FROM shopping_carts_products scp"
-                + "JOIN products p"
-                + "ON  scp.product_id=products.product_id"
-                + "WHERE scp.cart_id = ?;";
+        String query = "SELECT p.product_id, p.product_name, p.price "
+                + "FROM shopping_carts_products scp "
+                + "JOIN products p "
+                + "ON  scp.product_id=p.product_id "
+                + "WHERE scp.shopping_cart_id = ?;";
         try (Connection connection = ConnectionUtil.getConnection()) {
             List<Product> products = new ArrayList<>();
             PreparedStatement statement = connection.prepareStatement(query);
@@ -133,7 +135,7 @@ public class ShoppingCartJdbcImpl implements ShoppingCartDao {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Long productId = resultSet.getLong("product_id");
-                String name = resultSet.getString("name");
+                String name = resultSet.getString("product_name");
                 BigDecimal price = resultSet.getBigDecimal("price");
                 products.add(new Product(productId, name, price));
             }
