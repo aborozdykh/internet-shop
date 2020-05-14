@@ -155,14 +155,20 @@ public class UserDaoJdbcImpl implements UserDao {
     }
 
     private void setUserRoles(User user) {
+        String selectRoleIdQuery = "SELECT role_id FROM roles WHERE role_name = ?";
+        String insertUsersRolesQuery = "INSERT INTO users_roles (user_id, role_id) "
+                + "VALUES (?, ?)";
         try (Connection connection = ConnectionUtil.getConnection()) {
             for (Role role : user.getRoles()) {
-                String query = "INSERT INTO users_roles (user_id, role_id) "
-                        + "VALUES (?, ?)";
-                PreparedStatement statement = connection.prepareStatement(query);
-                statement.setLong(1, user.getUserId());
-                statement.setLong(2, role.getId());
-                statement.executeUpdate();
+                PreparedStatement selectStatement =
+                        connection.prepareStatement(selectRoleIdQuery);
+                selectStatement.setString(1, role.getRoleName().name());
+                ResultSet resultSet = selectStatement.executeQuery();
+                PreparedStatement insertStatement =
+                        connection.prepareStatement(insertUsersRolesQuery);
+                insertStatement.setLong(1, user.getUserId());
+                insertStatement.setLong(2, resultSet.getLong("role_id"));
+                insertStatement.executeUpdate();
             }
         } catch (SQLException e) {
             throw new DataProcessingException("Can't set user's roles", e);
