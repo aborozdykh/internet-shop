@@ -48,7 +48,7 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
     public ShoppingCart getByUserId(Long userId) {
         return getAll()
                 .stream()
-                .filter(shoppingCart -> shoppingCart.getUser().getUserId().equals(userId))
+                .filter(shoppingCart -> shoppingCart.getUserId().equals(userId))
                 .findFirst()
                 .get();
     }
