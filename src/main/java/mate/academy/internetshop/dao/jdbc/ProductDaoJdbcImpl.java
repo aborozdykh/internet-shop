@@ -14,12 +14,11 @@ import mate.academy.internetshop.exceptions.DataProcessingException;
 import mate.academy.internetshop.lib.Dao;
 import mate.academy.internetshop.model.Product;
 import mate.academy.internetshop.util.ConnectionUtil;
-import mate.academy.internetshop.web.filters.AuthorizationFilter;
 import org.apache.log4j.Logger;
 
 @Dao
 public class ProductDaoJdbcImpl implements ProductDao {
-    private static final Logger LOGGER = Logger.getLogger(AuthorizationFilter.class);
+    private static final Logger LOGGER = Logger.getLogger(ProductDaoJdbcImpl.class);
 
     @Override
     public Product create(Product product) {
@@ -29,18 +28,13 @@ public class ProductDaoJdbcImpl implements ProductDao {
                     connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, product.getName());
             statement.setBigDecimal(2, product.getPrice());
-            if (statement.executeUpdate() == 0) {
-                throw new DataProcessingException("Creating product failed, no rows affected.");
-            }
-            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    product.setProductId(generatedKeys.getLong(1));
-                } else {
-                    throw new DataProcessingException("Creating product failed, no ID obtained");
-                }
+            statement.executeUpdate();
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                product.setProductId(generatedKeys.getLong(1));
             }
         } catch (SQLException e) {
-            throw new DataProcessingException("Can't create statement", e);
+            throw new DataProcessingException("Can't create product", e);
         }
         return product;
     }
@@ -51,10 +45,14 @@ public class ProductDaoJdbcImpl implements ProductDao {
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setLong(1, id);
-            ResultSet resultSet = statement.executeQuery(query);
-            return Optional.of(getProductFromResultSet(resultSet));
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                var user = getProductFromResultSet(resultSet);
+                return Optional.of(user);
+            }
+            return Optional.empty();
         } catch (SQLException e) {
-            throw new DataProcessingException("Can't create statement", e);
+            throw new DataProcessingException("Can't get product", e);
         }
     }
 
@@ -63,14 +61,14 @@ public class ProductDaoJdbcImpl implements ProductDao {
         String query = "SELECT * FROM products";
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query);
-            ResultSet resultSet = statement.executeQuery(query);
+            ResultSet resultSet = statement.executeQuery();
             List<Product> productList = new ArrayList<>();
             while (resultSet.next()) {
                 productList.add(getProductFromResultSet(resultSet));
             }
             return productList;
         } catch (SQLException e) {
-            throw new DataProcessingException("Can't create statement", e);
+            throw new DataProcessingException("Can't get all products", e);
         }
     }
 
@@ -85,38 +83,30 @@ public class ProductDaoJdbcImpl implements ProductDao {
                 LOGGER.warn("Updating product failed, no rows affected");
             }
         } catch (SQLException e) {
-            throw new DataProcessingException("Can't create statement", e);
+            throw new DataProcessingException("Can't update product", e);
         }
         return product;
     }
 
     @Override
     public boolean delete(Long id) {
-        String query = "DELETE FROM products WHERE product_id = ?";
-        try (Connection connection = ConnectionUtil.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setLong(1, id);
-            if (statement.executeUpdate() == 0) {
-                LOGGER.info("Deleting  product failed, no rows affected");
-                return false;
-            }
-            return true;
-        } catch (SQLException e) {
-            throw new DataProcessingException("Can't create statement", e);
-        }
+        String deleteFromProductsQuery = "DELETE FROM products WHERE product_id = ?";
+        String deleteFromPOrdersProductsQuery = "DELETE FROM orders_products WHERE product_id = ?";
+        String deleteFromShoppingCartsProductsQuery
+                = "DELETE FROM shopping_carts_products WHERE product_id = ?";
+        deleteByQuery(deleteFromPOrdersProductsQuery, id);
+        deleteByQuery(deleteFromShoppingCartsProductsQuery, id);
+        return deleteByQuery(deleteFromProductsQuery, id);
     }
 
     public Product getProductFromResultSet(ResultSet resultSet) {
-        long id = 0;
-        String name = null;
-        BigDecimal price = null;
         try {
-            id = resultSet.getLong("product_id");
-            name = resultSet.getString("product_name");
-            price = resultSet.getBigDecimal("price");
+            long id = resultSet.getLong("product_id");
+            String name = resultSet.getString("product_name");
+            BigDecimal price = resultSet.getBigDecimal("price");
+            return new Product(id, name, price);
         } catch (SQLException e) {
             throw new DataProcessingException("Can't get product", e);
         }
-        return new Product(id, name, price);
     }
 }

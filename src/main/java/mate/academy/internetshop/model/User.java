@@ -9,10 +9,28 @@ public class User {
     private String password;
     private Set<Role> roles;
 
+    public User() {
+    }
+
     public User(String name, String login, String password) {
         this.name = name;
         this.login = login;
         this.password = password;
+    }
+
+    public User(Long userId, String name, String login, String password) {
+        this.userId = userId;
+        this.name = name;
+        this.login = login;
+        this.password = password;
+    }
+
+    public User(Long userId, String name, String login, String password, Set<Role> roles) {
+        this.userId = userId;
+        this.name = name;
+        this.login = login;
+        this.password = password;
+        this.roles = roles;
     }
 
     public Long getUserId() {
