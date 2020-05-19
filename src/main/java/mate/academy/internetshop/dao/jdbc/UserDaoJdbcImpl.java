@@ -41,13 +41,14 @@ public class UserDaoJdbcImpl implements UserDao {
 
     @Override
     public User create(User user) {
-        String query = "INSERT INTO users (user_name, login, password) VALUES (?, ?, ?)";
+        String query = "INSERT INTO users (user_name, login, password, salt) VALUES (?, ?, ?, ?)";
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement =
                     connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, user.getName());
             statement.setString(2, user.getLogin());
             statement.setString(3, user.getPassword());
+            statement.setBytes(4, user.getSalt());
             statement.executeUpdate();
             ResultSet generatedKeys = statement.getGeneratedKeys();
             if (generatedKeys.next()) {
@@ -146,7 +147,9 @@ public class UserDaoJdbcImpl implements UserDao {
             String name = resultSet.getString("user_name");
             String login = resultSet.getString("login");
             String password = resultSet.getString("password");
+            byte[] salt = resultSet.getBytes("salt");
             var user = new User(userId, name, login, password);
+            user.setSalt(salt);
             user.setRoles(getUserRoles(user));
             return user;
         } catch (SQLException e) {
@@ -164,6 +167,7 @@ public class UserDaoJdbcImpl implements UserDao {
                         connection.prepareStatement(selectRoleIdQuery);
                 selectStatement.setString(1, role.getRoleName().name());
                 ResultSet resultSet = selectStatement.executeQuery();
+                resultSet.next();
                 PreparedStatement insertStatement =
                         connection.prepareStatement(insertUsersRolesQuery);
                 insertStatement.setLong(1, user.getUserId());

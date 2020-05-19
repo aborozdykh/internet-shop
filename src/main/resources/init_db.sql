@@ -53,10 +53,11 @@ CREATE TABLE `users` (
   `user_name` varchar(255) NOT NULL,
   `login` varchar(255) NOT NULL,
   `password` varchar(225) NOT NULL,
-  `salt` varchar(225) NOT NULL,
+  `salt` varbinary(225) NOT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `login_UNIQUE` (`login`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+);
+
 
 
 CREATE TABLE `internet_shop`.`users_roles` (

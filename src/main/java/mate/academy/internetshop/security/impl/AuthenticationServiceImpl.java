@@ -1,5 +1,7 @@
 package mate.academy.internetshop.security.impl;
 
+import static mate.academy.internetshop.util.HashUtil.hashPassword;
+
 import mate.academy.internetshop.exceptions.AuthenticationException;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.lib.Service;
@@ -18,7 +20,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public User login(String login, String password) throws AuthenticationException {
         var userFromDB = userService.findByLogin(login).orElseThrow(() ->
                 new AuthenticationException(INCORRECT_LOGIN_OR_PASSWORD));
-        if (userFromDB.getPassword().equals(password)) {
+        if (userFromDB.getPassword().equals(hashPassword(password,userFromDB.getSalt()))) {
             return userFromDB;
         }
         throw new AuthenticationException(INCORRECT_LOGIN_OR_PASSWORD);
