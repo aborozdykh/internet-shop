@@ -58,8 +58,6 @@ CREATE TABLE `users` (
   UNIQUE KEY `login_UNIQUE` (`login`)
 );
 
-
-
 CREATE TABLE `internet_shop`.`users_roles` (
   `user_id` bigint(11) NOT NULL,
   `role_id` bigint(11) NOT NULL,
