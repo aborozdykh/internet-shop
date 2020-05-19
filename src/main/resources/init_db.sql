@@ -48,11 +48,12 @@ CREATE TABLE `internet_shop`.`shopping_carts_products` (
   CONSTRAINT `fk_shopping_carts_products_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 );
 
-CREATE TABLE `internet_shop`.`users` (
+CREATE TABLE `users` (
   `user_id` bigint(11) NOT NULL AUTO_INCREMENT,
   `user_name` varchar(255) NOT NULL,
   `login` varchar(255) NOT NULL,
   `password` varchar(225) NOT NULL,
+  `salt` varbinary(225) NOT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `login_UNIQUE` (`login`)
 );

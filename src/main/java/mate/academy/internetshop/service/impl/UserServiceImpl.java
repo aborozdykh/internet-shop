@@ -1,5 +1,8 @@
 package mate.academy.internetshop.service.impl;
 
+import static mate.academy.internetshop.util.HashUtil.getSalt;
+import static mate.academy.internetshop.util.HashUtil.hashPassword;
+
 import java.util.List;
 import java.util.Optional;
 import mate.academy.internetshop.dao.UserDao;
@@ -16,6 +19,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User create(User user) {
+        user.setSalt(getSalt());
+        String hashPassword = hashPassword(user.getPassword(), user.getSalt());
+        user.setPassword(hashPassword);
         return userDao.create(user);
     }
 
