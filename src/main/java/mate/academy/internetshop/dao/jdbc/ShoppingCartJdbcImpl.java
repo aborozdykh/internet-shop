@@ -17,7 +17,7 @@ import mate.academy.internetshop.model.ShoppingCart;
 import mate.academy.internetshop.util.ConnectionUtil;
 
 @Dao
-public class ShoppingCartJdbcImpl implements ShoppingCartDao {
+public class ShoppingCartJdbcImpl extends GenericImpl implements ShoppingCartDao {
     @Override
     public ShoppingCart getByUserId(Long userId) {
         String query = "SELECT * FROM shopping_carts WHERE user_id = ?";

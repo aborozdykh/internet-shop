@@ -16,11 +16,9 @@ import mate.academy.internetshop.lib.Dao;
 import mate.academy.internetshop.model.Role;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.util.ConnectionUtil;
-import org.apache.log4j.Logger;
 
 @Dao
-public class UserDaoJdbcImpl implements UserDao {
-    private static final Logger LOGGER = Logger.getLogger(UserDaoJdbcImpl.class);
+public class UserDaoJdbcImpl extends GenericImpl implements UserDao {
 
     @Override
     public Optional<User> findByLogin(String login) {

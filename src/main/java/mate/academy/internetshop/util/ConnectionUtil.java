@@ -12,7 +12,8 @@ public class ConnectionUtil {
     private static final String DRIVER = "com.mysql.jdbc.Driver";
     private static final String USER = "internetshop";
     private static final String PASSWORD = "Qwerty1@";
-    private static final String URL = "jdbc:mysql://localhost:3306/internetshop?serverTimezone=UTC";
+    private static final String URL
+            = "jdbc:mysql://localhost:3306/internet_shop?serverTimezone=UTC";
 
     static {
         try {

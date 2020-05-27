@@ -14,11 +14,9 @@ import mate.academy.internetshop.exceptions.DataProcessingException;
 import mate.academy.internetshop.lib.Dao;
 import mate.academy.internetshop.model.Product;
 import mate.academy.internetshop.util.ConnectionUtil;
-import org.apache.log4j.Logger;
 
 @Dao
-public class ProductDaoJdbcImpl implements ProductDao {
-    private static final Logger LOGGER = Logger.getLogger(ProductDaoJdbcImpl.class);
+public class ProductDaoJdbcImpl extends GenericImpl implements ProductDao {
 
     @Override
     public Product create(Product product) {
@@ -79,9 +77,7 @@ public class ProductDaoJdbcImpl implements ProductDao {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, product.getName());
             statement.setBigDecimal(2, product.getPrice());
-            if (statement.executeUpdate() == 0) {
-                LOGGER.warn("Updating product failed, no rows affected");
-            }
+            statement.executeUpdate();
         } catch (SQLException e) {
             throw new DataProcessingException("Can't update product", e);
         }

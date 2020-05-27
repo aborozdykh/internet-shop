@@ -18,7 +18,7 @@ import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.util.ConnectionUtil;
 
 @Dao
-public class OrderDaoJdbcImpl implements OrderDao {
+public class OrderDaoJdbcImpl extends GenericImpl implements OrderDao {
     @Override
     public List<Order> getUserOrders(User user) {
         List<Order> orders = new ArrayList<>();

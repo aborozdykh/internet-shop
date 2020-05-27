@@ -13,7 +13,7 @@ import mate.academy.internetshop.security.AuthenticationService;
 public class LoginController extends HttpServlet {
     private static final String USER_ID = "user_id";
     private static final Injector INJECTOR = Injector.getInstance("mate.academy");
-    private AuthenticationService authenticationService
+    private static AuthenticationService authenticationService
             = (AuthenticationService) INJECTOR.getInstance(AuthenticationService.class);
 
     @Override

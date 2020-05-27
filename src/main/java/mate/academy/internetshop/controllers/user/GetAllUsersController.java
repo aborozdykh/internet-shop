@@ -1,4 +1,4 @@
-package mate.academy.internetshop.controllers;
+package mate.academy.internetshop.controllers.user;
 
 import java.io.IOException;
 import java.util.List;
@@ -12,7 +12,7 @@ import mate.academy.internetshop.service.UserService;
 
 public class GetAllUsersController extends HttpServlet {
     private static final Injector INJECTOR = Injector.getInstance("mate.academy");
-    private UserService userService = (UserService) INJECTOR.getInstance(UserService.class);
+    private static UserService userService = (UserService) INJECTOR.getInstance(UserService.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
