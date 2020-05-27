@@ -59,7 +59,7 @@ public class Application {
                 + shoppingCartService.getAllProducts(shoppingCart));
 
         /// Orders
-        System.out.println("========================== Orders ==========================");
+        System.out.println("========================== Orders ====0======================");
         System.out.println("User with id 2: " + userService.get(2L));
         System.out.println("User2's cart: " + shoppingCartService.getByUserId(2L));
         System.out.println("All products in user2's cart: "
