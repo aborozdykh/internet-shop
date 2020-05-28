@@ -6,7 +6,7 @@ script:
 cache:
   directories:
     - "$HOME/.m2"
-addons:
+addons:зультат
   sonarcloud:
     organization: "aborozdykh"
     token:
