@@ -11,4 +11,4 @@ addons:
     token:
       secure: "$SONAR_TOKEN"
 script:
-  - mvn clean verify sonar:sonar -Pcoverage -Dsonar.projectKey=internet-shop
+  - mvn clean verify sonar:sonar -Pcoverage -Dsonar.projectKey=internet-shop -Dsonar.organization=aborozdykh -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=<c9ef545db5ef97cdd6f242eac050559c0167c26e>
