@@ -96,7 +96,7 @@ public class OrderDaoJdbcImpl extends GenericImpl implements OrderDao {
     }
 
     @Override
-    public boolean delete(Long id) {
+    public boolean delete(Long id) throws SQLException {
         String deleteFromOrdersQuery = "DELETE FROM orders WHERE order_id = ?";
         String deleteFromOrdersProductsQuery = "DELETE FROM orders_products WHERE order_id = ?";
         deleteByQuery(deleteFromOrdersProductsQuery, id);
