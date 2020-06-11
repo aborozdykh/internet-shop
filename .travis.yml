@@ -9,8 +9,6 @@ addons:
   sonarcloud:
     organization: "aborozdykh"
     token:
-      secure: "$SONAR_TOKEN"
+      secure:  "qZF5S8Jbmvg9G0sBLxSOYhtXO1wkSFguNi26MuiVj1c5LQyjzYUk2R09RTNa6aAJATsdHiEKY18q8Bk8B9QuGlw2PmbqM9rjQW2dyLjTnuSK8RLDMHDa51VQtNyKtIbdMOw65l6a9OHegibeKlrNCga5oEHnGZGExEe7+DnsCiWUgFIZW+QQ8qc4ag5ymLM9f1mTquVNiTBPnmjB9zgn09S0X5CQ3XQAs8mNRMvHIr3ivL6GGzP2chjTLTvop6I5GAW7LroE2otgdInwz6pTkP6o9NdfzUf3uR2iAhglLTtlgQK58aKDmuc9Yj5DqBLbjTFm/jEEngHSQRpH4kWTByhrrDM/ASCF7Vl1YAwARQHS4w+KwkvSOj8y8b9mk4gU5GDjhek3BckUE4KIeE5Qt6n9cb4Nn7X0TECeB3L48lrwIwnOlR4Y8pUiZ3eqmCZ4EGCbNfUNORGbt+Db1zf/+6NFosmiub6H1TwWQEnWZtkNskpHzRbYzv8MpJ6BdRoOYM47b3l6oDeODvTspd4P8p4Oq1MgW5pepLyKYo3NisyWjSHuVz3ZJaB2IIx9l5i7x+zaLSHD617/LHLAdoF/hWwNpN7ejnRm9KzW1YWT8mU1UTC6PqGSrTpfEgc5qvybhiZdaIZM72LwNa2wCWXEgG8VWtMfP680OAm+9HD1VgU="
 script:
-  - mvn clean verify sonar:sonar -Pcoverage -Dsonar.projectKey=internet-shop -Dsonar.organization=aborozdykh -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
-env:
-  SONAR_TOKEN: ${{ secrets.INTERNET_SHOP_SONAR_TOKEN }}
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=aborozdykh_internet-shop
