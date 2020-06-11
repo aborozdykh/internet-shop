@@ -96,7 +96,7 @@ public class OrderDaoJdbcImpl extends GenericImpl implements OrderDao {
     }
 
     @Override
-    public boolean delete(Long id) throws SQLException {
+    public boolean delete(Long id) {
         String deleteFromOrdersQuery = "DELETE FROM orders WHERE order_id = ?";
         String deleteFromOrdersProductsQuery = "DELETE FROM orders_products WHERE order_id = ?";
         deleteByQuery(deleteFromOrdersProductsQuery, id);
@@ -140,10 +140,10 @@ public class OrderDaoJdbcImpl extends GenericImpl implements OrderDao {
 
     private void addProductsToOrder(Order order) {
         try (Connection connection = ConnectionUtil.getConnection()) {
+            String query = "INSERT INTO orders_products(order_id, product_id) "
+                    + "VALUES (?, ?)";
+            PreparedStatement statement = connection.prepareStatement(query);
             for (Product product : order.getProducts()) {
-                String query = "INSERT INTO orders_products(order_id, product_id) "
-                        + "VALUES (?, ?)";
-                PreparedStatement statement = connection.prepareStatement(query);
                 statement.setLong(1, order.getOrderId());
                 statement.setLong(2, product.getProductId());
                 statement.executeUpdate();

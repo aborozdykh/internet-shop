@@ -8,17 +8,13 @@ import mate.academy.internetshop.util.ConnectionUtil;
 
 public abstract class GenericImpl {
 
-    boolean deleteByQuery(String query, long id) throws SQLException {
-        PreparedStatement statement = null;
+    boolean deleteByQuery(String query, long id) {
         try (Connection connection = ConnectionUtil.getConnection()) {
-            statement = connection.prepareStatement(query);
+            PreparedStatement statement = connection.prepareStatement(query);
             statement.setLong(1, id);
             return statement.executeUpdate() == 0 ? false : true;
-
         } catch (SQLException e) {
             throw new DataProcessingException("Can't delete by query " + query, e);
-        } finally {
-            statement.close();
         }
     }
 }

@@ -140,10 +140,10 @@ public class ShoppingCartJdbcImpl extends GenericImpl implements ShoppingCartDao
 
     private void addProductsToShoppingCart(ShoppingCart shoppingCart) {
         try (Connection connection = ConnectionUtil.getConnection()) {
+            String query = "INSERT INTO shopping_carts_products(shopping_cart_id, product_id) "
+                    + "VALUES (?, ?)";
+            PreparedStatement statement = connection.prepareStatement(query);
             for (Product product : shoppingCart.getProducts()) {
-                String query = "INSERT INTO shopping_carts_products(shopping_cart_id, product_id) "
-                        + "VALUES (?, ?)";
-                PreparedStatement statement = connection.prepareStatement(query);
                 statement.setLong(1, shoppingCart.getShoppingCartId());
                 statement.setLong(2, product.getProductId());
                 statement.executeUpdate();
