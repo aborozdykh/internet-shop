@@ -22,7 +22,7 @@ public class AuthorizationFilter implements Filter {
     private static final Logger LOGGER = Logger.getLogger(AuthorizationFilter.class);
     private static final String USER_ID = "user_id";
     private static final Injector INJECTOR = Injector.getInstance("mate.academy");
-    private UserService userService = (UserService) INJECTOR.getInstance(UserService.class);
+    private static UserService userService = (UserService) INJECTOR.getInstance(UserService.class);
     private Map<String, List<Role.RoleName>> protectedUrls = new HashMap<>();
 
     @Override

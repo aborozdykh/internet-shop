@@ -17,7 +17,7 @@ import mate.academy.internetshop.model.ShoppingCart;
 import mate.academy.internetshop.util.ConnectionUtil;
 
 @Dao
-public class ShoppingCartJdbcImpl implements ShoppingCartDao {
+public class ShoppingCartJdbcImpl extends GenericImpl implements ShoppingCartDao {
     @Override
     public ShoppingCart getByUserId(Long userId) {
         String query = "SELECT * FROM shopping_carts WHERE user_id = ?";
@@ -140,10 +140,10 @@ public class ShoppingCartJdbcImpl implements ShoppingCartDao {
 
     private void addProductsToShoppingCart(ShoppingCart shoppingCart) {
         try (Connection connection = ConnectionUtil.getConnection()) {
+            String query = "INSERT INTO shopping_carts_products(shopping_cart_id, product_id) "
+                    + "VALUES (?, ?)";
+            PreparedStatement statement = connection.prepareStatement(query);
             for (Product product : shoppingCart.getProducts()) {
-                String query = "INSERT INTO shopping_carts_products(shopping_cart_id, product_id) "
-                        + "VALUES (?, ?)";
-                PreparedStatement statement = connection.prepareStatement(query);
                 statement.setLong(1, shoppingCart.getShoppingCartId());
                 statement.setLong(2, product.getProductId());
                 statement.executeUpdate();

@@ -15,7 +15,7 @@ import mate.academy.internetshop.service.UserService;
 public class AuthenticationFilter implements Filter {
     private static final String USER_ID = "user_id";
     private static final Injector INJECTOR = Injector.getInstance("mate.academy");
-    private UserService userService = (UserService) INJECTOR.getInstance(UserService.class);
+    private static UserService userService = (UserService) INJECTOR.getInstance(UserService.class);
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -27,7 +27,6 @@ public class AuthenticationFilter implements Filter {
             throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
-
         String url = req.getServletPath();
         if (url.equals(req.getContextPath() + "/login")
                 || url.equals(req.getContextPath() + "/registration")) {

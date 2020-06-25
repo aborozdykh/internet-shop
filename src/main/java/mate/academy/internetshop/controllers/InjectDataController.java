@@ -10,38 +10,48 @@ import javax.servlet.http.HttpServletResponse;
 import mate.academy.internetshop.lib.Injector;
 import mate.academy.internetshop.model.Product;
 import mate.academy.internetshop.model.Role;
+import mate.academy.internetshop.model.ShoppingCart;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.ProductService;
 import mate.academy.internetshop.service.ShoppingCartService;
 import mate.academy.internetshop.service.UserService;
 
 public class InjectDataController extends HttpServlet {
-    private static final Injector INJECTOR = Injector.getInstance("mate.academy.internetshop");
-    private UserService userService = (UserService) INJECTOR.getInstance(UserService.class);
-    private ProductService productService =
+    private static final Injector INJECTOR = Injector.getInstance("mate.academy");
+    private static UserService userService = (UserService) INJECTOR.getInstance(UserService.class);
+    private static ProductService productService =
             (ProductService) INJECTOR.getInstance(ProductService.class);
-    private ShoppingCartService shoppingCartService =
+    private static ShoppingCartService shoppingCartService =
             (ShoppingCartService) INJECTOR.getInstance(ShoppingCartService.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        var bob = new User("Bob", "bob", "1");
+        var bob = new User("Bob", "bob", "bob");
         bob.setRoles(Set.of(Role.of("USER")));
-        var alisa = new User("Alisa", "alisa", "1");
-        alisa.setRoles(Set.of(Role.of("USER")));
-        var admin = new User("Admin", "admin", "1");
+        var alice = new User("Alice", "alice", "alice");
+        alice.setRoles(Set.of(Role.of("USER")));
+        var admin = new User("Admin", "admin", "admin");
         admin.setRoles(Set.of(Role.of("ADMIN")));
         userService.create(bob);
-        userService.create(alisa);
+        userService.create(alice);
         userService.create(admin);
 
-        var product1 = new Product("Apple", new BigDecimal(1000));
-        var product2 = new Product("Nokia", new BigDecimal(100));
-        var product3 = new Product("HTC", new BigDecimal(10));
-        productService.create(product1);
-        productService.create(product2);
-        productService.create(product3);
+        var shoppingCartAdmin = new ShoppingCart(admin);
+        shoppingCartService.create(shoppingCartAdmin);
+
+        var shoppingCartBob = new ShoppingCart(bob);
+        shoppingCartService.create(shoppingCartBob);
+
+        var shoppingCartAlice = new ShoppingCart(alice);
+        shoppingCartService.create(shoppingCartAlice);
+
+        var appleProduct = new Product("iPhone", new BigDecimal(1000));
+        var nokiaProduct = new Product("Nokia", new BigDecimal(100));
+        var htcProduct = new Product("HTC", new BigDecimal(10));
+        productService.create(appleProduct);
+        productService.create(nokiaProduct);
+        productService.create(htcProduct);
 
         req.getRequestDispatcher("/WEB-INF/views/injectData.jsp").forward(req, resp);
     }

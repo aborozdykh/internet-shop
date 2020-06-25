@@ -1,4 +1,4 @@
-package mate.academy.internetshop.controllers;
+package mate.academy.internetshop.controllers.order;
 
 import java.io.IOException;
 import java.util.List;
@@ -14,8 +14,10 @@ import mate.academy.internetshop.service.UserService;
 public class GetUserOrdersController extends HttpServlet {
     private static final String USER_ID = "user_id";
     private static final Injector INJECTOR = Injector.getInstance("mate.academy");
-    private OrderService orderService = (OrderService) INJECTOR.getInstance(OrderService.class);
-    private UserService userService = (UserService) INJECTOR.getInstance(UserService.class);
+    private static OrderService orderService
+            = (OrderService) INJECTOR.getInstance(OrderService.class);
+    private static UserService userService
+            = (UserService) INJECTOR.getInstance(UserService.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)

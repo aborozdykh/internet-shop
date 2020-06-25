@@ -1,8 +1,7 @@
-package mate.academy.internetshop.controllers;
+package mate.academy.internetshop.controllers.user;
 
 import java.io.IOException;
 import java.util.List;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,14 +13,15 @@ import mate.academy.internetshop.service.UserService;
 
 public class DeleteUserController extends HttpServlet {
     private static final Injector INJECTOR = Injector.getInstance("mate.academy");
-    private UserService userService = (UserService) INJECTOR.getInstance(UserService.class);
-    private ShoppingCartService shoppingCartService
+    private static UserService userService = (UserService) INJECTOR.getInstance(UserService.class);
+    private static ShoppingCartService shoppingCartService
             = (ShoppingCartService) INJECTOR.getInstance(ShoppingCartService.class);
-    private OrderService orderService = (OrderService) INJECTOR.getInstance(OrderService.class);
+    private static OrderService orderService
+            = (OrderService) INJECTOR.getInstance(OrderService.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
+            throws IOException {
         Long userId = Long.valueOf(req.getParameter("id"));
         Long shoppingCartId = shoppingCartService.getByUserId(userId).getShoppingCartId();
         shoppingCartService.delete(shoppingCartId);

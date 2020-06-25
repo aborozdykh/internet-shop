@@ -1,8 +1,14 @@
 language: java
 jdk:
   - openjdk11
-script:
-  - mvn clean install
 cache:
   directories:
-    - $HOME/.m2
+    - "$HOME/.m2"
+addons:
+  sonarcloud:
+    organization: "aborozdykh"
+    token:
+      secure:  "e2I++sw/7y2m/EPRi3b3tzDC6bx7GDxcmp9hlNxSxoxpUZJdAC3W04siZVfY7AXlkMcASbLMuo/BEKHvg/nar/CFFUABhS92MbHiBQm4K9USee9y90FA52csuqFE6zQxg4PTDJyiQW2gnU06HPclprLHWuFSF7drh/g/R5mz+GK8Wc9HDzeXgbM5rf0n0r0Yidp/l1yqNESf+GEYfFAw8BJFKaOfy4xIN1ieRtVfXM9AZTfZxDqBAGkdr0AfVGVbVSEBw9dQ3PWaiYeQD1sofNiAZn4pvCZ67cazJgGixUfZGavd6SS90G8+vwtTzivoGfM0Q7klWdLgrh08hW1EuEsW+LZzKdPWfnjmfbL3VUB6DDQC/mpOmhIyWRfdTeVdTom+beJkKdnox/UZJGibhO9ghydEIi/KF/j1XiNBBrvx76gLp/Pv2nREbB8wrTotGyGcmNshsJIOdgc6JMTUGqMQQBLH9+fB10V/U0b7/FZ0416lPz4A0evBVx9dAcM+zpvVlYx38bR15b0fvUXXLVN9dmhKs78L0W7IIXqGKPSFrnAl/hgLgnhZFDvUNCwidKY3D3A2APdhf0ndemKMYxMgD4XdPs9eV3XCjuacExBD3Klf98RIDFlB4HogWszVkXfPEB0h9DEW9GbN63FZSw7RKyKSZ/HwuNT/+/5eEJE="
+
+script:
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=aborozdykh_internet-shop

@@ -1,4 +1,4 @@
-package mate.academy.internetshop.controllers;
+package mate.academy.internetshop.controllers.product;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -12,7 +12,7 @@ import mate.academy.internetshop.service.ProductService;
 
 public class AddProductController extends HttpServlet {
     private static final Injector INJECTOR = Injector.getInstance("mate.academy");
-    private ProductService productService
+    private static ProductService productService
             = (ProductService) INJECTOR.getInstance(ProductService.class);
 
     @Override
@@ -23,7 +23,7 @@ public class AddProductController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
+            throws IOException {
         String name = req.getParameter("name");
         String productPrice = req.getParameter("price");
         BigDecimal price = new BigDecimal(productPrice);

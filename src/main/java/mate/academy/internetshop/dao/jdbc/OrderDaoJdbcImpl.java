@@ -18,7 +18,7 @@ import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.util.ConnectionUtil;
 
 @Dao
-public class OrderDaoJdbcImpl implements OrderDao {
+public class OrderDaoJdbcImpl extends GenericImpl implements OrderDao {
     @Override
     public List<Order> getUserOrders(User user) {
         List<Order> orders = new ArrayList<>();
@@ -140,10 +140,10 @@ public class OrderDaoJdbcImpl implements OrderDao {
 
     private void addProductsToOrder(Order order) {
         try (Connection connection = ConnectionUtil.getConnection()) {
+            String query = "INSERT INTO orders_products(order_id, product_id) "
+                    + "VALUES (?, ?)";
+            PreparedStatement statement = connection.prepareStatement(query);
             for (Product product : order.getProducts()) {
-                String query = "INSERT INTO orders_products(order_id, product_id) "
-                        + "VALUES (?, ?)";
-                PreparedStatement statement = connection.prepareStatement(query);
                 statement.setLong(1, order.getOrderId());
                 statement.setLong(2, product.getProductId());
                 statement.executeUpdate();
